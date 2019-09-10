@@ -6,22 +6,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//GETDate
-//gdg
-func GetDate() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"date": time.Now().Format("2006/01/02"),
-		})
-	}
+func GetDate() string {
+	return time.Now().Format("2006/01/02")
 }
 
-//
-func GetTime() func(c *gin.Context) {
+func GetTime() string {
+	return time.Now().Format(time.Kitchen)
+}
+
+func GetApi() func(c *gin.Context) {
 
 	return func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"time": time.Now().Format(time.Kitchen),
+			"time": GetTime(),
+			"date": GetDate(),
 		})
 	}
 }
@@ -29,8 +27,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/time", GetTime())
-	r.POST("/date", GetDate())
+	r.GET("/Api", GetApi())
 
 	r.Run()
 }
